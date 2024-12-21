@@ -64,6 +64,9 @@ blortton.rect.y=20
 coin=drawable(pg.transform.scale(pg.image.load("coin.png"),(30,33)))
 coin.surface.set_colorkey((255,255,255))
 coinbag=[]
+fullscreen=drawable(pg.image.load("Full_Screen.png"))
+fullscreen.rect.x = WIDTH / 4
+fullscreen.rect.bottom = 3*LENGTH / 4
 reinforcements=0
 enemies=[]
 pg.time.set_timer(SPAWN_ENEMIES, 1000)
@@ -134,6 +137,7 @@ while play:
                 Jon.draw(win)
                 exit.draw(win)
                 shop.draw(win)
+                fullscreen.draw(win)
                 Title=Fonte.render("Jon 2: Button Defense",True,(0,0,0))
                 win.blit(Title,(WIDTH/2-Title.get_width()/2,LENGTH*3/8))
                 pg.display.update()
@@ -148,6 +152,8 @@ while play:
                         mousepos=pg.mouse.get_pos()
                         if exit.rect.collidepoint(mousepos):
                             pg.event.post(pg.event.Event(pg.QUIT,{}))
+                        if fullscreen.rect.collidepoint(mousepos):
+                            win=pg.display.set_mode()
                         if shop.rect.collidepoint(mousepos):
                             gacha=True
                             while gacha:
