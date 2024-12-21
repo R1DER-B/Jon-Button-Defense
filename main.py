@@ -10,6 +10,7 @@ Fonta=pg.font.Font("BeVietnamPro-Medium.ttf",20)
 Fonte=pg.font.Font("BeVietnamPro-Medium.ttf",40)
 Fonti=pg.font.Font("BeVietnamPro-Medium.ttf",30)
 win=pg.display.set_mode()
+test=0
 WIDTH=win.get_width()
 LENGTH=win.get_height()
 play=True
