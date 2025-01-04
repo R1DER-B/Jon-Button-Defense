@@ -67,8 +67,9 @@ coinbag=[]
 fullscreen=drawable(pg.image.load("Full_Screen.png"))
 fullscreen.rect.x = WIDTH / 4
 fullscreen.rect.bottom = 3*LENGTH / 4
+# winscreen=drawable(pg.transform.scale(pg.image.load("Victory.jpg"),(WIDTH,LENGTH)))
 winscreen=drawable(pg.image.load("Victory.jpg"))
-
+winscreen.rect.centerx=WIDTH/2
 reinforcements=0
 enemies=[]
 pg.time.set_timer(SPAWN_ENEMIES, 1000)
@@ -126,12 +127,14 @@ def victory():
     global play
     global menu
     global gacha
-    win.fill((0,0,0))
-    Jon.draw(win)
+    win.fill((0, 0, 0))
     winscreen.draw(win)
-    play=False
+    Jon.draw(win)
+    pg.display.update()
+    pg.time.wait(5000)
     menu=False
     gacha=False
+    play=False
 while play:
     Clock.tick(60)
     for event in pg.event.get():
