@@ -19,7 +19,7 @@ mousemode="Up"
 lvlstart=False
 lvl=0
 level=drawable(Fonta.render(f"Level:{lvl}",True,(255,255,255)))
-money=100
+money=1000000000000000000000
 moneyt=Fonta.render(f"${money}",True,(255,255,255))
 lives=100
 livest=Fonta.render(f"{lives}",True,(255,255,255))
@@ -67,6 +67,8 @@ coinbag=[]
 fullscreen=drawable(pg.image.load("Full_Screen.png"))
 fullscreen.rect.x = WIDTH / 4
 fullscreen.rect.bottom = 3*LENGTH / 4
+winscreen=drawable(pg.image.load("Victory.jpg"))
+
 reinforcements=0
 enemies=[]
 pg.time.set_timer(SPAWN_ENEMIES, 1000)
@@ -117,7 +119,19 @@ def roll(powers, lottery):
     theone=r.randint(0,len(lottery)-1)
     powers[lottery[theone]].upgrade()
     print(lottery[theone])
+    if lottery[theone]=="Win":
+        victory()
     lottery.pop(theone)
+def victory():
+    global play
+    global menu
+    global gacha
+    win.fill((0,0,0))
+    Jon.draw(win)
+    winscreen.draw(win)
+    play=False
+    menu=False
+    gacha=False
 while play:
     Clock.tick(60)
     for event in pg.event.get():
