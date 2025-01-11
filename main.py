@@ -65,6 +65,9 @@ blortton.rect.y=20
 coin=drawable(pg.transform.scale(pg.image.load("coin.png"),(30,33)))
 coin.surface.set_colorkey((255,255,255))
 coinbag=[]
+powerpedia=drawable(pg.transform.scale(pg.image.load("powers.png"),(200,200)))
+powerpedia.rect.x = WIDTH / 4 - 50
+powerpedia.rect.bottom = 3*LENGTH / 4 + 50
 # winscreen=drawable(pg.transform.scale(pg.image.load("Victory.jpg"),(WIDTH,LENGTH)))
 winscreen=drawable(pg.image.load("Victory.jpg"))
 winscreen.rect.centerx=WIDTH/2
@@ -152,6 +155,7 @@ while play:
                 Jon.draw(win)
                 exit.draw(win)
                 shop.draw(win)
+                powerpedia.draw(win)
                 Title=Fonte.render("Jon 2: Button Defense",True,(0,0,0))
                 win.blit(Title,(WIDTH/2-Title.get_width()/2,LENGTH*3/8))
                 pg.display.update()
