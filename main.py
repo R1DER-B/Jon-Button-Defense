@@ -1,5 +1,6 @@
 import pygame as pg
 import random as r
+from pygame import FULLSCREEN
 from Drawable import drawable
 from Drawable import polygon
 from Powers import power
@@ -9,7 +10,7 @@ pg.init()
 Fonta=pg.font.Font("BeVietnamPro-Medium.ttf",20)
 Fonte=pg.font.Font("BeVietnamPro-Medium.ttf",40)
 Fonti=pg.font.Font("BeVietnamPro-Medium.ttf",30)
-win=pg.display.set_mode()
+win=pg.display.set_mode(flags=pg.FULLSCREEN)
 test=0
 WIDTH=win.get_width()
 LENGTH=win.get_height()
@@ -64,9 +65,6 @@ blortton.rect.y=20
 coin=drawable(pg.transform.scale(pg.image.load("coin.png"),(30,33)))
 coin.surface.set_colorkey((255,255,255))
 coinbag=[]
-fullscreen=drawable(pg.image.load("Full_Screen.png"))
-fullscreen.rect.x = WIDTH / 4
-fullscreen.rect.bottom = 3*LENGTH / 4
 # winscreen=drawable(pg.transform.scale(pg.image.load("Victory.jpg"),(WIDTH,LENGTH)))
 winscreen=drawable(pg.image.load("Victory.jpg"))
 winscreen.rect.centerx=WIDTH/2
@@ -154,7 +152,6 @@ while play:
                 Jon.draw(win)
                 exit.draw(win)
                 shop.draw(win)
-                fullscreen.draw(win)
                 Title=Fonte.render("Jon 2: Button Defense",True,(0,0,0))
                 win.blit(Title,(WIDTH/2-Title.get_width()/2,LENGTH*3/8))
                 pg.display.update()
@@ -169,8 +166,6 @@ while play:
                         mousepos=pg.mouse.get_pos()
                         if exit.rect.collidepoint(mousepos):
                             pg.event.post(pg.event.Event(pg.QUIT,{}))
-                        if fullscreen.rect.collidepoint(mousepos):
-                            win=pg.display.set_mode()
                         if shop.rect.collidepoint(mousepos):
                             gacha=True
                             while gacha:
