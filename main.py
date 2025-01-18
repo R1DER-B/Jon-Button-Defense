@@ -217,6 +217,21 @@ while play:
                                             print(buycount)
                                         if blortton.rect.collidepoint(mousepos):
                                             buyone=not buyone
+                        if powerpedia.rect.collidepoint(mousepos):
+                            openpower=True
+                            while openpower:
+                                powerb = pg.Rect(0, 0, WIDTH, LENGTH)
+                                pg.draw.rect(win, (160, 90, 30), powerb)
+                                pg.display.update()
+                                for event in pg.event.get():
+                                    if event.type == pg.QUIT:
+                                        play = False
+                                        menu = False
+                                        openpower = False
+                                    if event.type == pg.KEYUP:
+                                        if event.key == pg.K_ESCAPE:
+                                            openpower = False
+                                            draw(Jon, Drag, *enemies, Lvlbtn, level, heart, *coinbag)
         if event.type==pg.MOUSEBUTTONDOWN:
             mousemode="Down"
             mousepos=pg.mouse.get_pos()
