@@ -68,6 +68,12 @@ coinbag=[]
 powerpedia=drawable(pg.transform.scale(pg.image.load("powers.png"),(200,200)))
 powerpedia.rect.x = WIDTH / 4 - 50
 powerpedia.rect.bottom = 3*LENGTH / 4 + 50
+grid=drawable(pg.transform.scale(pg.image.load("P.png"),(1000,1000)))
+grid.rect.centerx=WIDTH/2
+grid.rect.centery=LENGTH/2
+winimg=drawable(pg.transform.scale(pg.image.load("Win.png"),(100,100)))
+winimg.rect.centerx=WIDTH/2
+winimg.rect.centery=LENGTH/2
 # winscreen=drawable(pg.transform.scale(pg.image.load("Victory.jpg"),(WIDTH,LENGTH)))
 winscreen=drawable(pg.image.load("Victory.jpg"))
 winscreen.rect.centerx=WIDTH/2
@@ -136,6 +142,11 @@ def victory():
     menu=False
     gacha=False
     play=False
+def abilitytext(ability):
+    print("hi")
+    box=pg.Rect(ability.rect.right,ability.rect.bottom,300,200)
+    pg.draw.rect(win,(255,255,255),box)
+    pg.display.update()
 while play:
     Clock.tick(60)
     for event in pg.event.get():
@@ -222,7 +233,11 @@ while play:
                             while openpower:
                                 powerb = pg.Rect(0, 0, WIDTH, LENGTH)
                                 pg.draw.rect(win, (160, 90, 30), powerb)
+                                grid.draw(win)
+                                winimg.draw(win)
                                 pg.display.update()
+                                if winimg.rect.collidepoint(pg.mouse.get_pos()):
+                                    abilitytext(winimg)
                                 for event in pg.event.get():
                                     if event.type == pg.QUIT:
                                         play = False
