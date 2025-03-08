@@ -10,6 +10,8 @@ pg.init()
 Fonta=pg.font.Font("BeVietnamPro-Medium.ttf",20)
 Fonte=pg.font.Font("BeVietnamPro-Medium.ttf",40)
 Fonti=pg.font.Font("BeVietnamPro-Medium.ttf",30)
+Fonto=pg.font.Font("BeVietnamPro-Medium.ttf",20)
+Fonto.set_bold(True)
 win=pg.display.set_mode(flags=pg.FULLSCREEN)
 test=0
 WIDTH=win.get_width()
@@ -71,10 +73,11 @@ powerpedia.rect.bottom = 3*LENGTH / 4 + 50
 grid=drawable(pg.transform.scale(pg.image.load("P.png"),(1000,1000)))
 grid.rect.centerx=WIDTH/2
 grid.rect.centery=LENGTH/2
-winimg=drawable(pg.transform.scale(pg.image.load("Win.png"),(100,100)))
+winimg=drawable(pg.transform.scale(pg.image.load("Win.png"),(150,150)))
 winimg.rect.centerx=WIDTH/2
-winimg.rect.centery=LENGTH/2
+winimg.rect.centery=LENGTH/2-10
 # winscreen=drawable(pg.transform.scale(pg.image.load("Victory.jpg"),(WIDTH,LENGTH)))
+damageimg=drawable(pg.transform.scale(pg.image.load("Damage.png"),(150,150)))
 winscreen=drawable(pg.image.load("Victory.jpg"))
 winscreen.rect.centerx=WIDTH/2
 reinforcements=0
@@ -143,10 +146,16 @@ def victory():
     gacha=False
     play=False
 def abilitytext(ability):
-    print("hi")
     box=pg.Rect(ability.rect.right,ability.rect.bottom,300,200)
     pg.draw.rect(win,(255,255,255),box)
-    pg.display.update()
+    if ability==winimg:
+        text=["                         Win", "", "     Instantly Wins The Game"]
+    for i in range(len(text)):
+        if i==0:
+            abtext = Fonto.render(text[i], True, (0, 0, 0))
+        else:
+            abtext = Fonta.render(text[i],True,(0,0,0))
+        win.blit(abtext, (box.x, box.y+10+20*i))
 while play:
     Clock.tick(60)
     for event in pg.event.get():
@@ -235,9 +244,10 @@ while play:
                                 pg.draw.rect(win, (160, 90, 30), powerb)
                                 grid.draw(win)
                                 winimg.draw(win)
-                                pg.display.update()
+                                damageimg.draw(win)
                                 if winimg.rect.collidepoint(pg.mouse.get_pos()):
                                     abilitytext(winimg)
+                                pg.display.update()
                                 for event in pg.event.get():
                                     if event.type == pg.QUIT:
                                         play = False
