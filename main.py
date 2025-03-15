@@ -10,8 +10,6 @@ pg.init()
 Fonta=pg.font.Font("BeVietnamPro-Medium.ttf",20)
 Fonte=pg.font.Font("BeVietnamPro-Medium.ttf",40)
 Fonti=pg.font.Font("BeVietnamPro-Medium.ttf",30)
-Fonto=pg.font.Font("BeVietnamPro-Medium.ttf",20)
-Fonto.set_bold(True)
 win=pg.display.set_mode(flags=pg.FULLSCREEN)
 test=0
 WIDTH=win.get_width()
@@ -32,18 +30,32 @@ buycount=0
 addthingy=10
 powers={}
 lottery=[]
+common=[]
+uncommon=[]
+rare=[]
+epic=[]
+legendary=[]
+rarities=[common,uncommon,rare,epic,legendary]
 with open("Powers.csv",'r') as file:
     for line in file:
         for char in range(len(line)):
             if line[char]==',':
                 name=line[0:char]
+                amount=int(line[char+1:])
+                if amount==1:
+                    legendary.append(name)
+                elif 2<=amount<25:
+                    epic.append(name)
+                elif 25<=amount<=40:
+                    rare.append(name)
+                elif 40<amount<=60:
+                    uncommon.append(name)
+                elif amount>60:
+                    common.append(name)
                 for x in range(int(line[char+1:-1])):
                     lottery.append(name)
                 powers.update({name:power(name)})
                 # powers.append(power(line[0:char]))
-print(powers)
-print(len(powers))
-print(len(lottery))
 Jon=pg.image.load("Jon_2_0.png")
 Jon.set_colorkey((255,0,0))
 Jonr=Jon.get_rect(center=((WIDTH/2,LENGTH/2)))
@@ -77,7 +89,9 @@ winimg=drawable(pg.transform.scale(pg.image.load("Win.png"),(150,150)))
 winimg.rect.centerx=WIDTH/2
 winimg.rect.centery=LENGTH/2-10
 # winscreen=drawable(pg.transform.scale(pg.image.load("Victory.jpg"),(WIDTH,LENGTH)))
-damageimg=drawable(pg.transform.scale(pg.image.load("Damage.png"),(150,150)))
+damageimg=drawable(pg.transform.scale(pg.image.load("Damage.png"),(125,125)))
+damageimg.rect.x=grid.rect.x+90
+damageimg.rect.y=grid.rect.y+100
 winscreen=drawable(pg.image.load("Victory.jpg"))
 winscreen.rect.centerx=WIDTH/2
 reinforcements=0
@@ -145,17 +159,31 @@ def victory():
     menu=False
     gacha=False
     play=False
+def getrarity(ability):
+    for rarity in rarities:
+        for name in rarity:
+            if name==ability:
+                if rarity==legendary:
+                    return (255,180,0)
+                elif rarity==epic:
+                    return (255,0,255)
+                elif rarity==rare:
+                    return (0,0,255)
+                elif rarity==uncommon:
+                    return (0,255,0)
+                elif rarity==common:
+                    return (100,100,100)
 def abilitytext(ability):
     box=pg.Rect(ability.rect.right,ability.rect.bottom,300,200)
     pg.draw.rect(win,(255,255,255),box)
     if ability==winimg:
-        text=["                         Win", "", "     Instantly Wins The Game"]
+        text=["             Win", "", "     Instantly Wins The Game"]
     for i in range(len(text)):
         if i==0:
-            abtext = Fonto.render(text[i], True, (0, 0, 0))
+            abtext = Fonte.render(text[i], True, getrarity("Win"))
         else:
             abtext = Fonta.render(text[i],True,(0,0,0))
-        win.blit(abtext, (box.x, box.y+10+20*i))
+        win.blit(abtext, (box.x, box.y+25*i))
 while play:
     Clock.tick(60)
     for event in pg.event.get():
