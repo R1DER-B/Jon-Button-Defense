@@ -46,9 +46,9 @@ with open("Powers.csv",'r') as file:
                     legendary.append(name)
                 elif 2<=amount<25:
                     epic.append(name)
-                elif 25<=amount<=40:
+                elif 25<=amount<=35:
                     rare.append(name)
-                elif 40<amount<=60:
+                elif 35<amount<=60:
                     uncommon.append(name)
                 elif amount>60:
                     common.append(name)
@@ -92,6 +92,10 @@ winimg.rect.centery=LENGTH/2-10
 damageimg=drawable(pg.transform.scale(pg.image.load("Damage.png"),(125,125)))
 damageimg.rect.x=grid.rect.x+90
 damageimg.rect.y=grid.rect.y+100
+healthimg=drawable(pg.transform.scale(pg.image.load("Health.png"),(125,125)))
+healthimg.rect.x=grid.rect.x+265
+healthimg.rect.y=grid.rect.y+100
+grabilities=[grid,winimg,damageimg,healthimg]
 winscreen=drawable(pg.image.load("Victory.jpg"))
 winscreen.rect.centerx=WIDTH/2
 reinforcements=0
@@ -173,14 +177,18 @@ def getrarity(ability):
                     return (0,255,0)
                 elif rarity==common:
                     return (100,100,100)
-def abilitytext(ability):
-    box=pg.Rect(ability.rect.right,ability.rect.bottom,300,200)
+def abilitytext(ability, image):
+    box=pg.Rect(image.rect.right,image.rect.bottom,300,200)
     pg.draw.rect(win,(255,255,255),box)
-    if ability==winimg:
-        text=["             Win", "", "     Instantly Wins The Game"]
+    if ability=="Win":
+        text=["            Win", "", "     Instantly Wins The Game"]
+    elif ability=="Damage":
+        text=["       Damage", "", "     Increases Damage Output"]
+    elif ability=="Health":
+        text=["         Health", "", "        Increases Jon's Health"]
     for i in range(len(text)):
         if i==0:
-            abtext = Fonte.render(text[i], True, getrarity("Win"))
+            abtext = Fonte.render(text[i], True, getrarity(ability))
         else:
             abtext = Fonta.render(text[i],True,(0,0,0))
         win.blit(abtext, (box.x, box.y+25*i))
@@ -270,11 +278,14 @@ while play:
                             while openpower:
                                 powerb = pg.Rect(0, 0, WIDTH, LENGTH)
                                 pg.draw.rect(win, (160, 90, 30), powerb)
-                                grid.draw(win)
-                                winimg.draw(win)
-                                damageimg.draw(win)
+                                for obj in grabilities:
+                                    obj.draw(win)
                                 if winimg.rect.collidepoint(pg.mouse.get_pos()):
-                                    abilitytext(winimg)
+                                    abilitytext("Win", winimg)
+                                if damageimg.rect.collidepoint(pg.mouse.get_pos()):
+                                    abilitytext("Damage", damageimg)
+                                if healthimg.rect.collidepoint(pg.mouse.get_pos()):
+                                    abilitytext("Health", healthimg)
                                 pg.display.update()
                                 for event in pg.event.get():
                                     if event.type == pg.QUIT:

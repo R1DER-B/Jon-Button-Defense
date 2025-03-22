@@ -1,17 +1,17 @@
 Win,1
-Force Field Ability,10
+Force Field,15
 Dragon Breath,15
 White Hole,15
-Eat Ability,20
+Eat,20
 Medusa,20
 Lightning,20
-Bomb Ability,24
-Saw Blade,25
+Saw Blade,20
+Bomb,30
 Laser,30
-Area Upgrade,40
-Bouncy Bullets,40
-Piercing,40
-Walking,40
+Area Upgrade,35
+Bouncy Bullets,35
+Piercing,35
+Walking,35
 Bow,50
 Sword,50
 Double Money,50
@@ -20,6 +20,6 @@ Better Luck,50
 Life Steal,50
 Push Enemies,50
 Dagger,50
-Regen,60
-Health Upgrade,100
+Regen,74
+Health,100
 Damage,100
