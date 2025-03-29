@@ -1,25 +1,25 @@
 Win,1
-Force Field,15
-Dragon Breath,15
-White Hole,15
+Force_Field,15
+Dragon_Breath,15
+White_Hole,15
 Eat,20
 Medusa,20
 Lightning,20
-Saw Blade,20
+Saw_Blade,20
 Bomb,30
 Laser,30
 Area Upgrade,35
-Bouncy Bullets,35
+Bouncy_Bullets,35
 Piercing,35
 Walking,35
+Push_Enemies,50
+Life_Steal,50
 Bow,50
 Sword,50
-Double Money,50
-Critical Click,50
-Better Luck,50
-Life Steal,50
-Push Enemies,50
 Dagger,50
-Regen,74
+Double_Money,50
+Critical_Click,50
+Better_Luck,50
+Regeneration,74
 Health,100
 Damage,100

@@ -95,7 +95,16 @@ damageimg.rect.y=grid.rect.y+100
 healthimg=drawable(pg.transform.scale(pg.image.load("Health.png"),(125,125)))
 healthimg.rect.x=grid.rect.x+265
 healthimg.rect.y=grid.rect.y+100
-grabilities=[grid,winimg,damageimg,healthimg]
+regenerationimg=drawable(pg.transform.scale(pg.image.load("Regeneration.png"),(125,125)))
+regenerationimg.rect.x=grid.rect.x+442
+regenerationimg.rect.y=grid.rect.y+100
+betterluckimg=drawable(pg.transform.scale(pg.image.load("Better_Luck.png"),(125,125)))
+betterluckimg.rect.x=grid.rect.x+616
+betterluckimg.rect.y=grid.rect.y+100
+criticalclickimg=drawable(pg.transform.scale(pg.image.load("Critical_Click.png"),(125,125)))
+criticalclickimg.rect.x=grid.rect.x+785
+criticalclickimg.rect.y=grid.rect.y+100
+grabilities=[grid,winimg,damageimg,healthimg,regenerationimg,betterluckimg, criticalclickimg]
 winscreen=drawable(pg.image.load("Victory.jpg"))
 winscreen.rect.centerx=WIDTH/2
 reinforcements=0
@@ -178,14 +187,23 @@ def getrarity(ability):
                 elif rarity==common:
                     return (100,100,100)
 def abilitytext(ability, image):
-    box=pg.Rect(image.rect.right,image.rect.bottom,300,200)
+    if image.rect.y>=WIDTH/2:
+        box=pg.Rect(image.rect.right,image.rect.bottom,300,200)
+    else:
+        box = pg.Rect(image.rect.right, image.rect.top, 300, 200)
     pg.draw.rect(win,(255,255,255),box)
     if ability=="Win":
-        text=["            Win", "", "     Instantly Wins The Game"]
+        text=["           .Win.", "", "     Instantly Wins The Game"]
     elif ability=="Damage":
-        text=["       Damage", "", "     Increases Damage Output"]
+        text=["      .Damage.", "", "     Increases Damage Output"]
     elif ability=="Health":
-        text=["         Health", "", "        Increases Jon's Health"]
+        text=["        .Health.", "", "        Increases Jon's Health"]
+    elif ability=="Regeneration":
+        text=[" .Regeneration.", "", "      Regenerates Jon's Lost", "             Health Over Time"]
+    elif ability=="Better_Luck":
+        text=["   .Better Luck.", "", "        Increases The Chances", "         To Get Rare Abilities"]
+    elif ability=="Critical_Click":
+        text=[" .Critical Click.", "", "        Increases The Chances", "              And Damage Of", "                Critical Clicks"]
     for i in range(len(text)):
         if i==0:
             abtext = Fonte.render(text[i], True, getrarity(ability))
@@ -286,6 +304,12 @@ while play:
                                     abilitytext("Damage", damageimg)
                                 if healthimg.rect.collidepoint(pg.mouse.get_pos()):
                                     abilitytext("Health", healthimg)
+                                if regenerationimg.rect.collidepoint(pg.mouse.get_pos()):
+                                    abilitytext("Regeneration", regenerationimg)
+                                if betterluckimg.rect.collidepoint(pg.mouse.get_pos()):
+                                    abilitytext("Better_Luck", betterluckimg)
+                                if criticalclickimg.rect.collidepoint(pg.mouse.get_pos()):
+                                    abilitytext("Critical_Click", criticalclickimg)
                                 pg.display.update()
                                 for event in pg.event.get():
                                     if event.type == pg.QUIT:
