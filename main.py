@@ -104,7 +104,19 @@ betterluckimg.rect.y=grid.rect.y+100
 criticalclickimg=drawable(pg.transform.scale(pg.image.load("Critical_Click.png"),(125,125)))
 criticalclickimg.rect.x=grid.rect.x+785
 criticalclickimg.rect.y=grid.rect.y+100
-grabilities=[grid,winimg,damageimg,healthimg,regenerationimg,betterluckimg, criticalclickimg]
+doublemoneyimg=drawable(pg.transform.scale(pg.image.load("Double_Money.png"),(125,125)))
+doublemoneyimg.rect.x=grid.rect.x+90
+doublemoneyimg.rect.y=grid.rect.y+265
+daggerimg=drawable(pg.transform.scale(pg.image.load("Dagger.png"),(100,100)))
+daggerimg.rect.x=grid.rect.x+275
+daggerimg.rect.y=grid.rect.y+280
+swordimg=drawable(pg.transform.scale(pg.image.load("Sword.png"),(125,125)))
+swordimg.rect.x=grid.rect.x+435
+swordimg.rect.y=grid.rect.y+265
+bowimg=drawable(pg.transform.scale(pg.image.load("Bow.png"),(125,125)))
+bowimg.rect.x=grid.rect.x+620
+bowimg.rect.y=grid.rect.y+265
+grabilities=[grid,winimg,damageimg,healthimg,regenerationimg,betterluckimg, criticalclickimg, doublemoneyimg, daggerimg, swordimg, bowimg]
 winscreen=drawable(pg.image.load("Victory.jpg"))
 winscreen.rect.centerx=WIDTH/2
 reinforcements=0
@@ -190,20 +202,28 @@ def abilitytext(ability, image):
     if image.rect.y>=WIDTH/2:
         box=pg.Rect(image.rect.right,image.rect.bottom,300,200)
     else:
-        box = pg.Rect(image.rect.right, image.rect.top, 300, 200)
+        box = pg.Rect(image.rect.right, image.rect.top, 350, 200)
     pg.draw.rect(win,(255,255,255),box)
     if ability=="Win":
-        text=["           .Win.", "", "     Instantly Wins The Game"]
+        text=["              .Win.", "", "           Instantly Wins The Game"]
     elif ability=="Damage":
-        text=["      .Damage.", "", "     Increases Damage Output"]
+        text=["         .Damage.", "", "          Increases Damage Output"]
     elif ability=="Health":
-        text=["        .Health.", "", "        Increases Jon's Health"]
+        text=["           .Health.", "", "              Increases Jon's Health"]
     elif ability=="Regeneration":
-        text=[" .Regeneration.", "", "      Regenerates Jon's Lost", "             Health Over Time"]
+        text=["    .Regeneration.", "", "            Regenerates Jon's Lost", "                  Health Over Time"]
     elif ability=="Better_Luck":
-        text=["   .Better Luck.", "", "        Increases The Chances", "         To Get Rare Abilities"]
+        text=["      .Better Luck.", "", "             Increases The Chances", "              To Get Rare Abilities"]
     elif ability=="Critical_Click":
-        text=[" .Critical Click.", "", "        Increases The Chances", "              And Damage Of", "                Critical Clicks"]
+        text=["    .Critical Click.", "", "             Increases The Chances", "                   And Damage Of", "                     Critical Clicks"]
+    elif ability=="Double_Money":
+        text=["   .Double Money.", "", "                Doubles The Money", "                       You Obtain"]
+    elif ability=="Dagger":
+        text=["          .Dagger.", "", "                       Gives Jon A", "                 Throwable Dagger"]
+    elif ability=="Sword":
+        text=["           .Sword.", "", "                 Gives Jon A Sword", "             That Spins Around Him"]
+    elif ability=="Bow":
+        text=["             .Bow.", "", "              Gives Jon A Bow That", "              Spins Around Him And", "          Shoot Arrows Periodically"]
     for i in range(len(text)):
         if i==0:
             abtext = Fonte.render(text[i], True, getrarity(ability))
@@ -310,6 +330,14 @@ while play:
                                     abilitytext("Better_Luck", betterluckimg)
                                 if criticalclickimg.rect.collidepoint(pg.mouse.get_pos()):
                                     abilitytext("Critical_Click", criticalclickimg)
+                                if doublemoneyimg.rect.collidepoint(pg.mouse.get_pos()):
+                                    abilitytext("Double_Money", doublemoneyimg)
+                                if daggerimg.rect.collidepoint(pg.mouse.get_pos()):
+                                    abilitytext("Dagger", daggerimg)
+                                if swordimg.rect.collidepoint(pg.mouse.get_pos()):
+                                    abilitytext("Sword", swordimg)
+                                if bowimg.rect.collidepoint(pg.mouse.get_pos()):
+                                    abilitytext("Bow", bowimg)
                                 pg.display.update()
                                 for event in pg.event.get():
                                     if event.type == pg.QUIT:
@@ -377,7 +405,7 @@ while play:
         coim.move(10, Jon.rect.center)
         if coim.rect.colliderect(Jon.rect):
             coinbag.remove(coim)
-            money+=2**powers["Double Money"].stacks*(copy.money+3)
+            money+=(copy.money+3)
             moneyt = Fonta.render(f"${money}", True, (255, 255, 255))
     for enemy in enemies:
         enemy.move(1,Jon.rect.center)
@@ -393,3 +421,4 @@ while play:
 # GACHA in the menu
 # IF DUPLICATES HAPPEN YOUR ABILITY UPGRADES
 # LOSE LIVES=GAME OVER
+# Luck will add to the rares and if the ability is maxed out it would reroll
