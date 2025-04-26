@@ -116,7 +116,13 @@ swordimg.rect.y=grid.rect.y+265
 bowimg=drawable(pg.transform.scale(pg.image.load("Bow.png"),(125,125)))
 bowimg.rect.x=grid.rect.x+620
 bowimg.rect.y=grid.rect.y+265
-grabilities=[grid,winimg,damageimg,healthimg,regenerationimg,betterluckimg, criticalclickimg, doublemoneyimg, daggerimg, swordimg, bowimg]
+lifestealimg=drawable(pg.transform.scale(pg.image.load("Life_Steal.png"),(125,125)))
+lifestealimg.rect.x=grid.rect.x+790
+lifestealimg.rect.y=grid.rect.y+265
+moneyperroundimg=drawable(pg.transform.scale(pg.image.load("Money_Per_Round.png"),(125,125)))
+moneyperroundimg.rect.x=grid.rect.x+90
+moneyperroundimg.rect.y=grid.rect.y+425
+grabilities=[grid,winimg,damageimg,healthimg,regenerationimg,betterluckimg, criticalclickimg, doublemoneyimg, daggerimg, swordimg, bowimg, lifestealimg, moneyperroundimg]
 winscreen=drawable(pg.image.load("Victory.jpg"))
 winscreen.rect.centerx=WIDTH/2
 reinforcements=0
@@ -217,13 +223,17 @@ def abilitytext(ability, image):
     elif ability=="Critical_Click":
         text=["    .Critical Click.", "", "             Increases The Chances", "                   And Damage Of", "                     Critical Clicks"]
     elif ability=="Double_Money":
-        text=["   .Double Money.", "", "                Doubles The Money", "                       You Obtain"]
+        text=["   .Double Money.", "", "                Doubles The Money", "                      Jon Obtains"]
     elif ability=="Dagger":
         text=["          .Dagger.", "", "                       Gives Jon A", "                 Throwable Dagger"]
     elif ability=="Sword":
         text=["           .Sword.", "", "                 Gives Jon A Sword", "             That Spins Around Him"]
     elif ability=="Bow":
         text=["             .Bow.", "", "              Gives Jon A Bow That", "              Spins Around Him And", "          Shoot Arrows Periodically"]
+    elif ability=="Life_Steal":
+        text=["        .Life Steal.", "", "            When Jon Hits Enemies", "         Restores Health Based Off", "                    Damage Done"]
+    elif ability=="Money_Per_Round":
+        text=["  .Coin Per Round.", "", "                  Obtains A Certain ", "           Amount Of Money At The", "               Start Of Each Round"]
     for i in range(len(text)):
         if i==0:
             abtext = Fonte.render(text[i], True, getrarity(ability))
@@ -338,6 +348,10 @@ while play:
                                     abilitytext("Sword", swordimg)
                                 if bowimg.rect.collidepoint(pg.mouse.get_pos()):
                                     abilitytext("Bow", bowimg)
+                                if lifestealimg.rect.collidepoint(pg.mouse.get_pos()):
+                                    abilitytext("Life_Steal", lifestealimg)
+                                if moneyperroundimg.rect.collidepoint(pg.mouse.get_pos()):
+                                    abilitytext("Money_Per_Round", moneyperroundimg)
                                 pg.display.update()
                                 for event in pg.event.get():
                                     if event.type == pg.QUIT:
