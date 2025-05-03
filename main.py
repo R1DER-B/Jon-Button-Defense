@@ -122,7 +122,22 @@ lifestealimg.rect.y=grid.rect.y+265
 moneyperroundimg=drawable(pg.transform.scale(pg.image.load("Money_Per_Round.png"),(125,125)))
 moneyperroundimg.rect.x=grid.rect.x+90
 moneyperroundimg.rect.y=grid.rect.y+425
-grabilities=[grid,winimg,damageimg,healthimg,regenerationimg,betterluckimg, criticalclickimg, doublemoneyimg, daggerimg, swordimg, bowimg, lifestealimg, moneyperroundimg]
+shieldimg=drawable(pg.transform.scale(pg.image.load("Shield.png"), (125, 125)))
+shieldimg.rect.x=grid.rect.x+265
+shieldimg.rect.y=grid.rect.y+425
+shockwaveimg=drawable(pg.transform.scale(pg.image.load("Shockwave.png"), (150, 150)))
+shockwaveimg.rect.x=grid.rect.x+605
+shockwaveimg.rect.y=grid.rect.y+410
+bouncybulletsimg=drawable(pg.transform.scale(pg.image.load("Bouncy_Bullets.png"), (150, 150)))
+bouncybulletsimg.rect.x=grid.rect.x+780
+bouncybulletsimg.rect.y=grid.rect.y+410
+eatimg=drawable(pg.transform.scale(pg.image.load("Eat.png"), (125, 125)))
+eatimg.rect.x=grid.rect.x+90
+eatimg.rect.y=grid.rect.y+580
+raygunimg=drawable(pg.transform.scale(pg.image.load("Raygun.png"), (125, 125)))
+raygunimg.rect.x=grid.rect.x+270
+raygunimg.rect.y=grid.rect.y+580
+grabilities=[grid,winimg,damageimg,healthimg,regenerationimg,betterluckimg, criticalclickimg, doublemoneyimg, daggerimg, swordimg, bowimg, lifestealimg, moneyperroundimg, shieldimg, shockwaveimg, bouncybulletsimg, eatimg, raygunimg]
 winscreen=drawable(pg.image.load("Victory.jpg"))
 winscreen.rect.centerx=WIDTH/2
 reinforcements=0
@@ -233,7 +248,17 @@ def abilitytext(ability, image):
     elif ability=="Life_Steal":
         text=["        .Life Steal.", "", "            When Jon Hits Enemies", "         Restores Health Based Off", "                    Damage Done"]
     elif ability=="Money_Per_Round":
-        text=["  .Coin Per Round.", "", "                  Obtains A Certain ", "           Amount Of Money At The", "               Start Of Each Round"]
+        text=["  .Cash Per Round.", "", "                  Obtains A Certain", "           Amount Of Money At The", "               Start Of Each Round"]
+    elif ability=="Shield":
+        text=["           .Shield.", "", "              Allows Jon To Take A", "            Certain Amount Of Hits", "           Without Taking Damage"]
+    elif ability == "Shockwave":
+        text = ["      .Shockwave.", "", "              Pushes Enemies Away"]
+    elif ability == "Bouncy_Bullets":
+        text = ["  .Bouncy Bullets.", "", "                   Allows Bullets To", "                   Bounce Off Walls"]
+    elif ability == "Eat":
+        text = ["              .Eat.", "", "             If An Enemy's Sides Are", "          Low Enough Then Jon Will", "          Eat Them And Take No", "                          Damage"]
+    elif ability == "Raygun":
+        text = ["          .Raygun.", "", "          Gives Jon A Raygun That", "          Fires A Laser Periodically"]
     for i in range(len(text)):
         if i==0:
             abtext = Fonte.render(text[i], True, getrarity(ability))
@@ -352,6 +377,16 @@ while play:
                                     abilitytext("Life_Steal", lifestealimg)
                                 if moneyperroundimg.rect.collidepoint(pg.mouse.get_pos()):
                                     abilitytext("Money_Per_Round", moneyperroundimg)
+                                if shieldimg.rect.collidepoint(pg.mouse.get_pos()):
+                                    abilitytext("Shield", shieldimg)
+                                if shockwaveimg.rect.collidepoint(pg.mouse.get_pos()):
+                                    abilitytext("Shockwave", shockwaveimg)
+                                if bouncybulletsimg.rect.collidepoint(pg.mouse.get_pos()):
+                                    abilitytext("Bouncy_Bullets", bouncybulletsimg)
+                                if eatimg.rect.collidepoint(pg.mouse.get_pos()):
+                                    abilitytext("Eat", eatimg)
+                                if raygunimg.rect.collidepoint(pg.mouse.get_pos()):
+                                    abilitytext("Raygun", raygunimg)
                                 pg.display.update()
                                 for event in pg.event.get():
                                     if event.type == pg.QUIT:
