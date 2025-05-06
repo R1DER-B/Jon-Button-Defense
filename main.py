@@ -137,7 +137,28 @@ eatimg.rect.y=grid.rect.y+580
 raygunimg=drawable(pg.transform.scale(pg.image.load("Raygun.png"), (125, 125)))
 raygunimg.rect.x=grid.rect.x+270
 raygunimg.rect.y=grid.rect.y+580
-grabilities=[grid,winimg,damageimg,healthimg,regenerationimg,betterluckimg, criticalclickimg, doublemoneyimg, daggerimg, swordimg, bowimg, lifestealimg, moneyperroundimg, shieldimg, shockwaveimg, bouncybulletsimg, eatimg, raygunimg]
+bombimg=drawable(pg.transform.scale(pg.image.load("Bomb.png"), (125, 125)))
+bombimg.rect.x=grid.rect.x+450
+bombimg.rect.y=grid.rect.y+580
+swampimg=drawable(pg.transform.scale(pg.image.load("Swamp.png"), (125, 125)))
+swampimg.rect.x=grid.rect.x+615
+swampimg.rect.y=grid.rect.y+580
+lightningimg=drawable(pg.transform.scale(pg.image.load("Lightning.png"), (125, 140)))
+lightningimg.rect.x=grid.rect.x+785
+lightningimg.rect.y=grid.rect.y+575
+freezeimg=drawable(pg.transform.scale(pg.image.load("Freeze.png"), (125, 125)))
+freezeimg.rect.x=grid.rect.x+90
+freezeimg.rect.y=grid.rect.y+745
+nukeimg=drawable(pg.transform.scale(pg.image.load("Nuke.png"), (125, 125)))
+nukeimg.rect.x=grid.rect.x+265
+nukeimg.rect.y=grid.rect.y+745
+whiteholeimg=drawable(pg.transform.scale(pg.image.load("White_Hole.png"), (125, 125)))
+whiteholeimg.rect.x=grid.rect.x+435
+whiteholeimg.rect.y=grid.rect.y+740
+dragonbreathimg=drawable(pg.transform.scale(pg.image.load("Dragon_Breath.png"), (125, 125)))
+dragonbreathimg.rect.x=grid.rect.x+600
+dragonbreathimg.rect.y=grid.rect.y+740
+grabilities=[grid,winimg,damageimg,healthimg,regenerationimg,betterluckimg, criticalclickimg, doublemoneyimg, daggerimg, swordimg, bowimg, lifestealimg, moneyperroundimg, shieldimg, shockwaveimg, bouncybulletsimg, eatimg, raygunimg, bombimg, swampimg, lightningimg, freezeimg, nukeimg, whiteholeimg, dragonbreathimg]
 winscreen=drawable(pg.image.load("Victory.jpg"))
 winscreen.rect.centerx=WIDTH/2
 reinforcements=0
@@ -259,6 +280,20 @@ def abilitytext(ability, image):
         text = ["              .Eat.", "", "             If An Enemy's Sides Are", "          Low Enough Then Jon Will", "          Eat Them And Take No", "                          Damage"]
     elif ability == "Raygun":
         text = ["          .Raygun.", "", "          Gives Jon A Raygun That", "          Fires A Laser Periodically"]
+    elif ability == "Bomb":
+        text = ["            .Bomb.", "", "           Spawns Bombs That Can", "     Detonate Upon Dragging Over"]
+    elif ability == "Swamp":
+        text = ["           .Swamp.", "", "               Spawns Swamps That", "      Damages And Slows Enemies", "                          Over Time"]
+    elif ability == "Lightning":
+        text = ["        .Lightning.", "", "               Allows Jon To Shoot", "                Lightning That Hits", "                   Multiple Enemies"]
+    elif ability == "Freeze":
+        text = ["           .Freeze.", "", "              Freezes Enemies In A", "           Zone To Keep Them From", "                            Moving"]
+    elif ability == "Nuke":
+        text = ["             .Nuke.", "", "             Wipes Out All Enemies", "                  On Screen After", "            A Long Period Of Time"]
+    elif ability == "White_Hole":
+        text = ["      .White Hole.", "", "         Spawms A White Hole", "              That Sucks Enemies In", "                        Dealing Damage"]
+    elif ability == "Dragon_Breath":
+        text = ["  .Dragon Breath.", "", "     Jon Gains The", "          Ability To Breathe Fire", "       That Also Does Damage", "    Over Time"]
     for i in range(len(text)):
         if i==0:
             abtext = Fonte.render(text[i], True, getrarity(ability))
@@ -387,6 +422,20 @@ while play:
                                     abilitytext("Eat", eatimg)
                                 if raygunimg.rect.collidepoint(pg.mouse.get_pos()):
                                     abilitytext("Raygun", raygunimg)
+                                if bombimg.rect.collidepoint(pg.mouse.get_pos()):
+                                    abilitytext("Bomb", bombimg)
+                                if swampimg.rect.collidepoint(pg.mouse.get_pos()):
+                                    abilitytext("Swamp", swampimg)
+                                if lightningimg.rect.collidepoint(pg.mouse.get_pos()):
+                                    abilitytext("Lightning", lightningimg)
+                                if freezeimg.rect.collidepoint(pg.mouse.get_pos()):
+                                    abilitytext("Freeze", freezeimg)
+                                if nukeimg.rect.collidepoint(pg.mouse.get_pos()):
+                                    abilitytext("Nuke", nukeimg)
+                                if whiteholeimg.rect.collidepoint(pg.mouse.get_pos()):
+                                    abilitytext("White_Hole", whiteholeimg)
+                                if dragonbreathimg.rect.collidepoint(pg.mouse.get_pos()):
+                                    abilitytext("Dragon_Breath", dragonbreathimg)
                                 pg.display.update()
                                 for event in pg.event.get():
                                     if event.type == pg.QUIT:
