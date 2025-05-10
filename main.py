@@ -11,7 +11,6 @@ Fonta=pg.font.Font("BeVietnamPro-Medium.ttf",20)
 Fonte=pg.font.Font("BeVietnamPro-Medium.ttf",40)
 Fonti=pg.font.Font("BeVietnamPro-Medium.ttf",30)
 win=pg.display.set_mode(flags=pg.FULLSCREEN)
-test=0
 WIDTH=win.get_width()
 LENGTH=win.get_height()
 play=True
@@ -20,7 +19,7 @@ mousemode="Up"
 lvlstart=False
 lvl=0
 level=drawable(Fonta.render(f"Level:{lvl}",True,(255,255,255)))
-money=1000000000000000000000
+money=10000000000
 moneyt=Fonta.render(f"${money}",True,(255,255,255))
 lives=100
 livest=Fonta.render(f"{lives}",True,(255,255,255))
@@ -29,6 +28,7 @@ price=100
 buycount=0
 addthingy=10
 powers={}
+jonpowers=[]
 lottery=[]
 common=[]
 uncommon=[]
@@ -156,9 +156,12 @@ whiteholeimg=drawable(pg.transform.scale(pg.image.load("White_Hole.png"), (125, 
 whiteholeimg.rect.x=grid.rect.x+435
 whiteholeimg.rect.y=grid.rect.y+740
 dragonbreathimg=drawable(pg.transform.scale(pg.image.load("Dragon_Breath.png"), (125, 125)))
-dragonbreathimg.rect.x=grid.rect.x+600
+dragonbreathimg.rect.x=grid.rect.x+615
 dragonbreathimg.rect.y=grid.rect.y+740
-grabilities=[grid,winimg,damageimg,healthimg,regenerationimg,betterluckimg, criticalclickimg, doublemoneyimg, daggerimg, swordimg, bowimg, lifestealimg, moneyperroundimg, shieldimg, shockwaveimg, bouncybulletsimg, eatimg, raygunimg, bombimg, swampimg, lightningimg, freezeimg, nukeimg, whiteholeimg, dragonbreathimg]
+forcefieldimg=drawable(pg.transform.scale(pg.image.load("Force_Field.png"), (125, 125)))
+forcefieldimg.rect.x=grid.rect.x+790
+forcefieldimg.rect.y=grid.rect.y+740
+grabilities=[grid,winimg,damageimg,healthimg,regenerationimg,betterluckimg, criticalclickimg, doublemoneyimg, daggerimg, swordimg, bowimg, lifestealimg, moneyperroundimg, shieldimg, shockwaveimg, bouncybulletsimg, eatimg, raygunimg, bombimg, swampimg, lightningimg, freezeimg, nukeimg, whiteholeimg, dragonbreathimg, forcefieldimg]
 winscreen=drawable(pg.image.load("Victory.jpg"))
 winscreen.rect.centerx=WIDTH/2
 reinforcements=0
@@ -210,9 +213,9 @@ def spawnenemy(enemies):
 def roll(powers, lottery):
     theone=r.randint(0,len(lottery)-1)
     powers[lottery[theone]].upgrade()
-    print(lottery[theone])
     if lottery[theone]=="Win":
         victory()
+    jonpowers.append(lottery[theone])
     lottery.pop(theone)
 def victory():
     global play
@@ -222,10 +225,10 @@ def victory():
     winscreen.draw(win)
     Jon.draw(win)
     pg.display.update()
+    print(jonpowers)
+    print(str(buycount)+" gachas")
     pg.time.wait(5000)
-    menu=False
-    gacha=False
-    play=False
+    pg.event.post(pg.event.Event(pg.QUIT, {}))
 def getrarity(ability):
     for rarity in rarities:
         for name in rarity:
@@ -242,9 +245,9 @@ def getrarity(ability):
                     return (100,100,100)
 def abilitytext(ability, image):
     if image.rect.y>=WIDTH/2:
-        box=pg.Rect(image.rect.right,image.rect.bottom,300,200)
+        box=pg.Rect(image.rect.right,image.rect.bottom,300,175)
     else:
-        box = pg.Rect(image.rect.right, image.rect.top, 350, 200)
+        box = pg.Rect(image.rect.right, image.rect.top, 350, 175)
     pg.draw.rect(win,(255,255,255),box)
     if ability=="Win":
         text=["              .Win.", "", "           Instantly Wins The Game"]
@@ -293,7 +296,9 @@ def abilitytext(ability, image):
     elif ability == "White_Hole":
         text = ["      .White Hole.", "", "         Spawms A White Hole", "              That Sucks Enemies In", "                        Dealing Damage"]
     elif ability == "Dragon_Breath":
-        text = ["  .Dragon Breath.", "", "     Jon Gains The", "          Ability To Breathe Fire", "       That Also Does Damage", "    Over Time"]
+        text = ["  .Dragon Breath.", "", "                    Jon Gains The", "            Ability To Breathe Fire", "          That Also Does Damage", "                       Over Time"]
+    elif ability == "Force_Field":
+        text = ["      .Force Field.", "", "           Slows Enemies, Reduces", "             Damage Taken, And", "        Deals Damage To Enemies", "                      In The Field"]
     for i in range(len(text)):
         if i==0:
             abtext = Fonte.render(text[i], True, getrarity(ability))
@@ -333,6 +338,8 @@ while play:
                     if event.type==pg.MOUSEBUTTONDOWN:
                         mousepos=pg.mouse.get_pos()
                         if exit.rect.collidepoint(mousepos):
+                            print(jonpowers)
+                            print(str(buycount)+" gachas")
                             pg.event.post(pg.event.Event(pg.QUIT,{}))
                         if shop.rect.collidepoint(mousepos):
                             gacha=True
@@ -361,6 +368,8 @@ while play:
                                     if event.type == pg.MOUSEBUTTONDOWN:
                                         mousepos = pg.mouse.get_pos()
                                         if exit.rect.collidepoint(mousepos):
+                                            print(jonpowers)
+                                            print(str(buycount)+" gachas")
                                             pg.event.post(pg.event.Event(pg.QUIT, {}))
                                         if gasha.rect.collidepoint(mousepos):
                                             if buyone:
@@ -378,7 +387,6 @@ while play:
                                                     moneyt = Fonta.render(f"${money}", True, (255, 255, 255))
                                                     for x in range(10):
                                                         roll(powers, lottery)
-                                            print(buycount)
                                         if blortton.rect.collidepoint(mousepos):
                                             buyone=not buyone
                         if powerpedia.rect.collidepoint(mousepos):
@@ -436,6 +444,8 @@ while play:
                                     abilitytext("White_Hole", whiteholeimg)
                                 if dragonbreathimg.rect.collidepoint(pg.mouse.get_pos()):
                                     abilitytext("Dragon_Breath", dragonbreathimg)
+                                if forcefieldimg.rect.collidepoint(pg.mouse.get_pos()):
+                                    abilitytext("Force_Field", forcefieldimg)
                                 pg.display.update()
                                 for event in pg.event.get():
                                     if event.type == pg.QUIT:
@@ -465,15 +475,16 @@ while play:
                 damage=False
                 for point in enemy.points:
                     if Drag.rect.collidepoint(point):
-                        damage=True
-                if damage:
-                    if not enemy.damage():
-                        copy=coin.copy()
-                        copy.money=enemy.dollar
-                        copy.rect.x=enemy.center[0]
-                        copy.rect.y=enemy.center[1]
-                        coinbag.append(copy)
-                        enemies.remove(enemy)
+                            damage=True
+                for x in range(jonpowers.count("Damage")+1):
+                    if damage:
+                        if not enemy.damage() and enemy in enemies:
+                            copy=coin.copy()
+                            copy.money=enemy.dollar
+                            copy.rect.x=enemy.center[0]
+                            copy.rect.y=enemy.center[1]
+                            coinbag.append(copy)
+                            enemies.remove(enemy)
             mousemode="Up"
             win.fill((0, 0, 0))
             # Drag.rect.size=(0,0)
@@ -515,8 +526,6 @@ while play:
     if len(enemies)==0:
         lvlstart=False
     draw(Jon,Drag,*enemies,Lvlbtn,level,heart,*coinbag)
-#TODO:
-# GACHA in the menu
 # IF DUPLICATES HAPPEN YOUR ABILITY UPGRADES
 # LOSE LIVES=GAME OVER
 # Luck will add to the rares and if the ability is maxed out it would reroll

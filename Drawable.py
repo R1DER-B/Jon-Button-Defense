@@ -39,12 +39,12 @@ class polygon:
         self.rect=pg.Rect(lowx,lowy,highx-lowx,highy-lowy)
         self.center=pg.math.Vector2(((highx+lowx)/2,(highy+lowy)/2))
     def damage(self):
-        if len(self.points) > 3:
-            self.points.pop(0)
-            self.dollar+=1
-            return True
-        else:
-            return False
+            if len(self.points) > 3:
+                self.points.pop(0)
+                self.dollar+=1
+                return True
+            else:
+                return False
     def draw(self,Surface):
         pg.draw.polygon(Surface,self.color,self.points)
         # if self.mask:
