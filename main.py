@@ -6,6 +6,7 @@ from Drawable import polygon
 from Powers import power
 SPAWN_ENEMIES=pg.USEREVENT+1
 MENU=pg.USEREVENT+2
+REGENERATION=pg.USEREVENT+3
 pg.init()
 Fonta=pg.font.Font("BeVietnamPro-Medium.ttf",20)
 Fonte=pg.font.Font("BeVietnamPro-Medium.ttf",40)
@@ -22,6 +23,9 @@ level=drawable(Fonta.render(f"Level:{lvl}",True,(255,255,255)))
 money=10000000000
 moneyt=Fonta.render(f"${money}",True,(255,255,255))
 lives=100
+maxhealth=100
+regen=1
+healthmultiplier=1.25
 livest=Fonta.render(f"{lives}",True,(255,255,255))
 buyone=True
 price=100
@@ -211,11 +215,20 @@ def spawnenemy(enemies):
 #     else:
 #         mario+=char
 def roll(powers, lottery):
+    global lives
+    global livest
+    global maxhealth
+    global regen
+    global healthmultiplier
     theone=r.randint(0,len(lottery)-1)
     powers[lottery[theone]].upgrade()
+    jonpowers.append(lottery[theone])
     if lottery[theone]=="Win":
         victory()
-    jonpowers.append(lottery[theone])
+    if lottery[theone]=="Health":
+        lives=int(lives*healthmultiplier)
+        maxhealth=int(maxhealth*healthmultiplier)
+        livest = Fonta.render(f"{lives}", True, (255, 255, 255))
     lottery.pop(theone)
 def victory():
     global play
@@ -308,6 +321,7 @@ def abilitytext(ability, image):
 while play:
     Clock.tick(60)
     for event in pg.event.get():
+        pg.time.set_timer(REGENERATION, 1000)
         if event.type==pg.QUIT:
             play=False
         if event.type==pg.KEYUP:
@@ -489,6 +503,12 @@ while play:
             win.fill((0, 0, 0))
             # Drag.rect.size=(0,0)
             Drag=drawable(pg.Surface((0,0)),Drag.rect)
+        if event.type==REGENERATION:
+            regenstacks=jonpowers.count("Regeneration")
+                regen = int(healthmultiplier / 2 * regenstacks)
+            lives+=regen
+            if lives>=maxhealth:
+                lives=maxhealth
         if event.type==SPAWN_ENEMIES:
             if reinforcements>0:
                 spawnenemy(enemies)
@@ -514,7 +534,8 @@ while play:
         coim.move(10, Jon.rect.center)
         if coim.rect.colliderect(Jon.rect):
             coinbag.remove(coim)
-            money+=(copy.money+3)
+            doublemoneystacks=int(jonpowers.count("Double_Money")*1.1)
+            money+=int((copy.money*doublemoneystacks+3))
             moneyt = Fonta.render(f"${money}", True, (255, 255, 255))
     for enemy in enemies:
         enemy.move(1,Jon.rect.center)
@@ -529,3 +550,4 @@ while play:
 # IF DUPLICATES HAPPEN YOUR ABILITY UPGRADES
 # LOSE LIVES=GAME OVER
 # Luck will add to the rares and if the ability is maxed out it would reroll
+# fix double money
