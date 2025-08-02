@@ -1,5 +1,6 @@
 import pygame as pg
 import random as r
+import math as m
 from pygame import FULLSCREEN
 from Drawable import drawable
 from Drawable import polygon
@@ -229,11 +230,16 @@ def roll(powers, lottery):
         lives=int(lives*healthmultiplier)
         maxhealth=int(maxhealth*healthmultiplier)
         livest = Fonta.render(f"{lives}", True, (255, 255, 255))
+    if lottery[theone]=="Better_Luck":
+        for ability in powers:
+            for y in range(getraritymp(ability)):
+                lottery.append(ability)
     lottery.pop(theone)
 def victory():
     global play
     global menu
     global gacha
+    print(lottery)
     win.fill((0, 0, 0))
     winscreen.draw(win)
     Jon.draw(win)
@@ -256,6 +262,19 @@ def getrarity(ability):
                     return (0,255,0)
                 elif rarity==common:
                     return (100,100,100)
+def getraritymp(ability):
+    ttlpwrs=lottery.count(ability)+jonpowers.count(ability)
+    for rarity in rarities:
+        for name in rarity:
+            if name==ability:
+                if rarity==legendary:
+                     return m.ceil(ttlpwrs*2-jonpowers.count(ability))
+                elif rarity==epic:
+                    return m.ceil(ttlpwrs*1.2-jonpowers.count(ability))
+                elif rarity==rare:
+                    return m.ceil(ttlpwrs*1.1-jonpowers.count(ability))
+                else:
+                    return 0
 def abilitytext(ability, image):
     if image.rect.y>=WIDTH/2:
         box=pg.Rect(image.rect.right,image.rect.bottom,300,175)
@@ -505,7 +524,7 @@ while play:
             Drag=drawable(pg.Surface((0,0)),Drag.rect)
         if event.type==REGENERATION:
             regenstacks=jonpowers.count("Regeneration")
-                regen = int(healthmultiplier / 2 * regenstacks)
+            regen = int(healthmultiplier / 2 * regenstacks)
             lives+=regen
             if lives>=maxhealth:
                 lives=maxhealth
