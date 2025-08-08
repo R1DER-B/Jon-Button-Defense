@@ -239,13 +239,12 @@ def victory():
     global play
     global menu
     global gacha
-    print(lottery)
+    print(jonpowers)
+    print(str(buycount) + " gachas")
     win.fill((0, 0, 0))
     winscreen.draw(win)
     Jon.draw(win)
     pg.display.update()
-    print(jonpowers)
-    print(str(buycount)+" gachas")
     pg.time.wait(5000)
     pg.event.post(pg.event.Event(pg.QUIT, {}))
 def getrarity(ability):
@@ -268,9 +267,9 @@ def getraritymp(ability):
         for name in rarity:
             if name==ability:
                 if rarity==legendary:
-                     return m.ceil(ttlpwrs*2-jonpowers.count(ability))
+                     return m.ceil(ttlpwrs*1.5-jonpowers.count(ability))
                 elif rarity==epic:
-                    return m.ceil(ttlpwrs*1.2-jonpowers.count(ability))
+                    return m.ceil(ttlpwrs*1.3-jonpowers.count(ability))
                 elif rarity==rare:
                     return m.ceil(ttlpwrs*1.1-jonpowers.count(ability))
                 else:
@@ -408,18 +407,18 @@ while play:
                                             if buyone:
                                                 if money >= price:
                                                     money-=price
-                                                    buycount+=1
                                                     price+=addthingy
                                                     moneyt = Fonta.render(f"${money}", True, (255, 255, 255))
                                                     roll(powers,lottery)
+                                                    buycount+=1
                                             else:
                                                 if money >= int(9*(10*price+45*addthingy)/10):
                                                     money -= int(9*(10*price+45*addthingy)/10)
-                                                    buycount += 10
                                                     price += 10*addthingy
                                                     moneyt = Fonta.render(f"${money}", True, (255, 255, 255))
                                                     for x in range(10):
                                                         roll(powers, lottery)
+                                                        buycount += 1
                                         if blortton.rect.collidepoint(mousepos):
                                             buyone=not buyone
                         if powerpedia.rect.collidepoint(mousepos):
