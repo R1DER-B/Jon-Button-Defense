@@ -241,6 +241,7 @@ def victory():
     global gacha
     print(jonpowers)
     print(str(buycount) + " gachas")
+    print("$" + str(10000000000-money))
     win.fill((0, 0, 0))
     winscreen.draw(win)
     Jon.draw(win)
@@ -336,6 +337,16 @@ def abilitytext(ability, image):
         else:
             abtext = Fonta.render(text[i],True,(0,0,0))
         win.blit(abtext, (box.x, box.y+25*i))
+def damaged():
+    global copy
+    if damage:
+        if not enemy.damage() and enemy in enemies:
+            copy = coin.copy()
+            copy.money = enemy.dollar
+            copy.rect.x = enemy.center[0]
+            copy.rect.y = enemy.center[1]
+            coinbag.append(copy)
+            enemies.remove(enemy)
 while play:
     Clock.tick(60)
     for event in pg.event.get():
@@ -493,7 +504,8 @@ while play:
             mousepos=pg.mouse.get_pos()
             if Jon.rect.collidepoint(mousepos) and lvlstart:
                 # if Jon.mask.get_at(mousepos):
-                money+=1
+                doublemoneystacks = int(jonpowers.count("Double_Money") * 1.1)
+                money+=doublemoneystacks+1
                 moneyt=Fonta.render(f"${money}", True, (255, 255, 255))
             if Lvlbtn.rect.collidepoint(mousepos):
                 # pg.time.set_timer(SPAWN_ENEMIES, 1000, loops=9)
@@ -508,15 +520,12 @@ while play:
                 for point in enemy.points:
                     if Drag.rect.collidepoint(point):
                             damage=True
-                for x in range(jonpowers.count("Damage")+1):
-                    if damage:
-                        if not enemy.damage() and enemy in enemies:
-                            copy=coin.copy()
-                            copy.money=enemy.dollar
-                            copy.rect.x=enemy.center[0]
-                            copy.rect.y=enemy.center[1]
-                            coinbag.append(copy)
-                            enemies.remove(enemy)
+                if r.randint(jonpowers.count("Critical_Click")*2, 100)>=95:
+                    for x in range(jonpowers.count("Critical_Click")*((jonpowers.count("Damage")+1))):
+                        damaged()
+                else:
+                    for x in range(jonpowers.count("Damage")+1):
+                        damaged()
             mousemode="Up"
             win.fill((0, 0, 0))
             # Drag.rect.size=(0,0)
