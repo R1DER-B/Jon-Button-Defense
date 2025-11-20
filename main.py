@@ -32,6 +32,7 @@ buyone=True
 price=100
 buycount=0
 addthingy=10
+enemiesDefeated=0
 powers={}
 jonpowers=[]
 lottery=[]
@@ -509,7 +510,7 @@ while play:
                 moneyt=Fonta.render(f"${money}", True, (255, 255, 255))
             if Lvlbtn.rect.collidepoint(mousepos):
                 # pg.time.set_timer(SPAWN_ENEMIES, 1000, loops=9)
-                reinforcements=9
+                reinforcements=10
                 lvlstart=True
                 spawnenemy(enemies)
                 lvl+=1
@@ -520,6 +521,10 @@ while play:
                 for point in enemy.points:
                     if Drag.rect.collidepoint(point):
                             damage=True
+                            lives += jonpowers.count("Life_Steal")
+                            if maxhealth != lives:
+                                if maxhealth < lives:
+                                    lives = maxhealth
                 if r.randint(jonpowers.count("Critical_Click")*2, 100)>=95:
                     for x in range(jonpowers.count("Critical_Click")*((jonpowers.count("Damage")+1))):
                         damaged()
@@ -572,9 +577,12 @@ while play:
             lives-=len(enemy.points)
         livest = Fonta.render(f"{lives}", True, (255, 255, 255))
     if len(enemies)==0:
+        if jonpowers.count("Double_Money")>=1:
+            money += jonpowers.count("Money_Per_Round")*int(jonpowers.count("Double_Money")*1.1)
+        else:
+            money += jonpowers.count("Money_Per_Round")
         lvlstart=False
     draw(Jon,Drag,*enemies,Lvlbtn,level,heart,*coinbag)
 # IF DUPLICATES HAPPEN YOUR ABILITY UPGRADES
 # LOSE LIVES=GAME OVER
 # Luck will add to the rares and if the ability is maxed out it would reroll
-# fix double money
