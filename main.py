@@ -116,6 +116,7 @@ doublemoneyimg.rect.y=grid.rect.y+265
 daggerimg=drawable(pg.transform.scale(pg.image.load("Dagger.png"),(100,100)))
 daggerimg.rect.x=grid.rect.x+275
 daggerimg.rect.y=grid.rect.y+280
+daggerweapon=(pg.image.load("Dagger_Weapon.png"))
 swordimg=drawable(pg.transform.scale(pg.image.load("Sword.png"),(125,125)))
 swordimg.rect.x=grid.rect.x+435
 swordimg.rect.y=grid.rect.y+265
@@ -338,6 +339,16 @@ def abilitytext(ability, image):
         else:
             abtext = Fonta.render(text[i],True,(0,0,0))
         win.blit(abtext, (box.x, box.y+25*i))
+def manhattan_distance(obj1, obj2):
+    return abs(obj1.centerx-obj2.centerx)+abs(obj1.centery-obj2.centery)
+def dagger_attack():
+    for enemy in enemies:
+        mindist = float("inf")
+        mintuple = (None, None)
+        dist = manhattan_distance(Jon.rect, enemy)
+        if dist < mindist:
+            mindist = dist
+            mintuple = (enemy.x, enemy.y)
 def damaged():
     global copy
     if damage:

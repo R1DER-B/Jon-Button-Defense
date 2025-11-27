@@ -58,3 +58,10 @@ class polygon:
             point.y+=distance.y
         self.center.x+=distance.x
         self.center.y+=distance.y
+class weapon:
+    def __init__(self, damage):
+        self.damage=damage
+    class dagger:
+        def __init__(self, damage, speed):
+            super().__init__(damage)
+            self.speed=speed
